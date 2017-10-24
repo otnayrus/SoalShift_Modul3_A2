@@ -4,21 +4,34 @@
 #include <string.h>
 #include <unistd.h>
 
-void* cariifah (void * arg){
+//struct passer{
+//  char arr[100]; 
+//};
+
+void* carikata (void * arg){
 	char kata[100];
+	string dicari = (string) arg;
+//	struct passer * cari = (struct passer *) arg;
+//	strcpy(dicari,arg->arr);
 	int jumlah = 0;	
 	FILE * novel;
 	novel = fopen("novel.txt","r");
 	while(fscanf(novel,"%s",kata)!=EOF) {
-		if(strcmp(kata,"ifah")==0) jumlah++; 
+		if(strcmp(kata,dicari)==0) jumlah++; 
 	}
-printf("ifah : %d\n",jumlah);	
+printf("%s : %d\n",dicari,jumlah);	
 fclose(novel);
 }
 
-int main(){
-	pthread_t t1;
-	pthread_create(&(t1), NULL , &cariifah , NULL);
-	pthread_join(t1,NULL);
+int main(int argv, char * argc[]){
+	pthread_t t1[argv];
+	int i;
+//	struct passer listkata;
+	for(i=1;i<=argv;i++){
+	//strcpy(listkata.arr,argc[i]);		
+	pthread_create(&(t1[i]), NULL , carikata ,(void *) &argc[i]);
+	pthread_join(t1[i],NULL);	
+}
+	
 return 0;
 }

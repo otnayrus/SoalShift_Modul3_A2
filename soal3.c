@@ -1,12 +1,16 @@
 #include<stdio.h>
 #include<pthread.h>
 
-int statlohan=100
+int statlohan=100, statkepiting=100;
 void * delohan (void * arg){
   sleep(10);
-  statlohan-=10;
+  statlohan-=15;
 }
 
+void * dekepiting (void * arg){
+  sleep(20);
+  statkepiting-=10;
+}
 
 int main(){
   pthread_t t1,t2;

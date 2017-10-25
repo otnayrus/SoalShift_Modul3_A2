@@ -13,7 +13,15 @@ int guncomparator(char * arr){
 	else if(strcmp(arr,"MINE")==0) return 5;
 	else return -1;
 }
+void inttogun(int x,char * arr){
+	if(x==0) strcpy(arr,"MP4A1");
+	else if(x==1) strcpy(arr,"PM2-V1");
+	else if(x==2) strcpy(arr,"SPR-3");
+	else if(x==3) strcpy(arr,"SS2-V5");
+	else if(x==4) strcpy(arr,"SPG1-V3");
+	else if(x==5) strcpy(arr,"MINE");
 
+}
 void main()
 {
         key_t key = 1234;
@@ -28,7 +36,7 @@ void main()
 	  printf("1. Lihat stok , 2. Tambah Senjata : ");
 	  scanf("%d",&n);
 	  if(n==1){
-	    for(i=0;i<6;i++) if(gun[i]!=0) printf("%d=%d\n",i,gun[i]);
+	    for(i=0;i<6;i++) if(gun[i]!=0) {inttogun(i,plus); printf("%s=%d\n",plus,gun[i]);}
 	  }
 	  else if(n==2){
 	    printf("Tambah : ");

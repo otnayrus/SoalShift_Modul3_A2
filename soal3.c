@@ -37,17 +37,17 @@ int main(){
    printf("Kasih makan siapa? 1. Lohan , 2. Kepiting : ");
    scanf("%d",&n);
    if(n==1){
-     scanf("%d",&makan);
 	while(lock1!=0);
 	lock1=1;
 	if(alive!=0) statlohan+=10;
+	if(statlohan>100) alive=0;
 	lock1=0;
    }
    else if(n==2){
-     scanf("%d",&makan);
 	while(lock2!=0);
 	lock2=1;
 	if(alive!=0) statkepiting+=10;
+	if(statkepiting>100) alive=0;
 	lock2=0;
    }
    else printf("Salah command!\n");

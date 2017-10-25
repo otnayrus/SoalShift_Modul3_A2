@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <unistd.h>
+#include <string.h>
+
+int guncomparator(char * arr){
+	if(strcmp(arr,"MP4A1")==0) return 0;
+	else if(strcmp(arr,"PM2-V1")==0) return 1;
+	else if(strcmp(arr,"SPR-3")==0) return 2;
+	else if(strcmp(arr,"SS2-V5")==0) return 3;
+	else if(strcmp(arr,"SPG1-V3")==0) return 4;
+	else if(strcmp(arr,"MINE")==0) return 5;
+	else return -1;
+}
+void inttogun(int x,char * arr){
+	if(x==0) strcpy(arr,"MP4A1");
+	else if(x==1) strcpy(arr,"PM2-V1");
+	else if(x==2) strcpy(arr,"SPR-3");
+	else if(x==3) strcpy(arr,"SS2-V5");
+	else if(x==4) strcpy(arr,"SPG1-V3");
+	else if(x==5) strcpy(arr,"MINE");
+}
+
+void main()
+{
+        key_t key = 1234;
+	char plus[8];
+	int i , n , shmid,val, *gun;
+        shmid = shmget(key, 6*sizeof(int), IPC_CREAT | 0666);
+        gun = (int*)shmat(shmid, NULL, 0);
+//inisialisasi
+	for(i=0;i<6;i++) gun[i]=0;
+
+	while(1){
+	  printf("1. Lihat stok , 2. Beli Senjata : ");
+	  scanf("%d",&n);
+	  if(n==1){
+	    for(i=0;i<6;i++) if(gun[i]!=0) {inttogun(i,plus); printf("%s=%d\n",plus,gun[i]);}
+	  }
+	  else if(n==2){
+	    printf("Beli : ");
+	    scanf("%s%d",plus,&val);
+	    i=guncomparator(plus);
+	    if(i!=-1&&gun[i]-val>=0) gun[i]-=val;
+	    else printf("Gak jual itu atau stok gak cukup\n");
+	  }
+	  else if(n==0) break; // 0 jika force close
+	  else printf("Input salah\n");
+	}
+
+        shmdt(gun);
+        shmctl(shmid, IPC_RMID, NULL);
+}
